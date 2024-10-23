@@ -1,0 +1,27 @@
+package components
+
+type RootPublicViewModel struct {
+  Title string
+  Error error
+}
+
+templ RootPublic(vm RootPublicViewModel) {
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Index</title>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width">
+      <link rel="icon" href="/favicon.svg">
+      <link rel="stylesheet" href="/assets/styles.css" />
+      <script src="/assets/htmx.min.js"></script>
+    </head>
+    <body>
+      if vm.Error != nil {
+        <div class="alert alert-error">{vm.Error.Error()}</div>
+      }
+  
+      { children... }
+    </body>
+  </html>
+}

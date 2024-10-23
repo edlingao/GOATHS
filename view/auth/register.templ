@@ -1,0 +1,53 @@
+package view_auth
+
+import "exercise-app/components"
+
+type RegisterViewModel struct {
+  Title string
+  Error error
+  InputErrors map[string]string
+}
+
+templ Register(vm RegisterViewModel) {
+  @components.RootPublic(components.RootPublicViewModel{
+    Title: "Register",
+    Error: vm.Error,
+  }) {
+    @components.AuthForm("/auth/register") {
+      @RegisterForm(vm)
+    }
+  }
+}
+
+templ RegisterForm(
+  vm RegisterViewModel,
+) {
+  <h1 class="text-center text-neutral text-5xl uppercase">Register</h1>
+  <p class="text-center text-primary">Register a new account</p>
+  @components.Input( components.InputViewModel{
+    Placeholder: "Enter your email",
+    Name: "email",
+    InputType: "email",
+  }, vm.InputErrors["email"])
+
+  @components.Input( components.InputViewModel{
+    Placeholder: "Enter your username",
+    Name: "username",
+    InputType: "text",
+  }, vm.InputErrors["username"])
+
+  @components.Input( components.InputViewModel{
+    Placeholder: "Enter your password",
+    Name: "password",
+    InputType: "password",
+  }, vm.InputErrors["password"])
+
+  <button class="btn btn-primary text-white" type="submit">Register</button>
+  <p class="text-center text-neutral">
+    Already have an account? 
+    @components.Link("/auth/signin") {
+      Signin here
+    }
+  </p>
+}
+

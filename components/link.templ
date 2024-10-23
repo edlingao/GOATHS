@@ -1,0 +1,10 @@
+package components
+
+templ Link(href templ.SafeURL) {
+  <a
+    href={href}
+    class="text-primary underline"
+    hx-boost="true"
+  >{children...}</a>
+}
+

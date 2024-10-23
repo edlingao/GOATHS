@@ -1,0 +1,46 @@
+package view_index
+
+import "exercise-app/components"
+import "exercise-app/models"
+
+type IndexViewModel struct {
+  Title string
+  Error error
+  Authenticated bool
+  User models.User
+}
+
+templ Index(vm IndexViewModel) {
+  if vm.Authenticated {
+    @components.RootAuth(components.RootAuthViewModel{
+      Title: vm.Title,
+      User: vm.User,
+      Error: vm.Error,
+    }) {
+      @IndexAuth(vm.User, vm.Title)
+    }
+  } else {
+    @components.RootPublic(components.RootPublicViewModel{
+      Title: vm.Title,
+    }) {
+      @IndexPublic(vm.Title)
+    }
+  }
+}
+
+templ IndexAuth(user models.User, title string) {
+  <div class="w-full p-4">
+    @components.ExerciseTable(components.ExerciseTableViewModel{
+      Exercises: user.Exercises(),
+      Error: nil,
+    })
+  </div>
+}
+
+templ IndexPublic(title string) {
+  <div class="container">
+    <h1>{title}</h1>
+    <p>Welcome to the public index page!</p>
+  </div>
+}
+

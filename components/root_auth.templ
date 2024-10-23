@@ -1,0 +1,37 @@
+package components
+
+import "exercise-app/models"
+
+type RootAuthViewModel struct {
+  Title string
+  Error error
+  User models.User
+}
+
+templ RootAuth(vm RootAuthViewModel) {
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <title>{vm.Title}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="/favicon.svg">
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <script defer src="/assets/htmx.min.js"></script>
+    <script defer src="/assets/events.js"></script>
+  </head>
+  <body>
+    <main class="flex flex-col w-full h-[90dvh]">
+      @Nav(NavViewModel{User: vm.User})
+      @ExerciseModal(ExerciseFormViewModel{
+        Text: "New Exercise",
+        Error: nil,
+      })
+      if vm.Error != nil {
+        <div class="alert alert-error">{vm.Error.Error()}</div>
+      }
+      { children... }
+    </main>
+  </body>
+  </html>
+}

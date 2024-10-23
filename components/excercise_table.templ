@@ -1,0 +1,58 @@
+package components
+
+import "exercise-app/models"
+
+type ExerciseTableViewModel struct {
+  Exercises []models.Exercise
+  Error error
+}
+
+templ ExerciseTable( vm ExerciseTableViewModel ) {
+
+  if vm.Error != nil {
+    <div class="alert alert-error">{vm.Error.Error()}</div>
+  }
+
+  <div
+    class="w-full max-h-96 overflow-x-auto"
+    hx-get="/exercise"
+    hx-trigger="exercises:loaded from:body"
+    hx-swap="outerHTML"
+    id="exercise-table"
+  >
+    <table class="table table-pin-rows table-zebra">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Duration</th>
+          <th>Calories</th>
+          <th>Feeling</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        for _, excercise := range vm.Exercises {
+          <tr class="hover">
+            <td>{excercise.GetID()}</td>
+            <td>{excercise.GetFormattedDate()}</td>
+            <td>{excercise.GetDuration()}</td>
+            <td>{excercise.GetCalories()}</td>
+            <td>{excercise.GetFeeling()}</td>
+            <td>
+              <button
+                class="btn btn-warning btn-sm text-white"
+                hx-delete={"/exercise/delete/" + excercise.GetID()}
+                hx-swap="none"
+                hx-confirm="Are you sure you want to delete this exercise?"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
+

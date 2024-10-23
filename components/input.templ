@@ -1,0 +1,34 @@
+package components
+
+type InputViewModel struct {
+  Placeholder string
+  Name string
+  InputType string
+  required bool
+}
+
+templ Input(
+  vm InputViewModel,
+  errorMessage string,
+) {
+  <label
+    class="input input-bordered flex flex-1 min-h-14 max-h-14 items-center gap-2"
+  >
+    <input
+      class="grow"
+      type={vm.InputType}
+      name={vm.Name}
+      placeholder={vm.Placeholder}
+      required?={vm.required}
+    />
+  </label>
+  @Error(errorMessage)
+}
+
+templ Error(
+  Error string,
+) {
+  if Error != "" {
+    <span class="text-red-500">{Error}</span>
+  }
+}

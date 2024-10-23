@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS exercises (
+  id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL,
+  date DATETIME NOT NULL,
+  feeling TEXT NOT NULL,
+  hours INTEGER NOT NULL,
+  minutes INTEGER NOT NULL,
+  calories INTEGERS NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (user_id) REFERENCES users
+);
+
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER NOT NULL,
+  username TEXT NOT NULL UNIQUE,
+  email TEXT NOT NULL UNIQUE,
+  password TEXT NOT NULL,
+  PRIMARY KEY (id)
+);

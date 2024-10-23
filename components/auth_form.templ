@@ -1,0 +1,21 @@
+package components
+
+templ AuthForm(action templ.SafeURL) {
+  <div class="flex h-[100dvh] lg:h-[80dvh] bg-white lg:m-12 overflow-hidden rounded flex-col lg:flex-row">
+    <form
+      class="flex flex-col h-1/2 w-full lg:h-full lg:w-1/2 gap-4 justify-center items-stretch p-4"
+      hx-post={string(action)}
+      hx-request='{"credentials":"include"}'
+      hx-swap="innerHTML"
+    >
+      { children... }
+    </form>
+    <div class="w-full lg:w-1/2">
+      <img
+        class="h-full object-cover"
+        src="/assets/imgs/bg.jpg"
+        alt="Signing Background"
+      />
+    </div>
+  </div>
+}

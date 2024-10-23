@@ -1,0 +1,106 @@
+package components
+
+type ExerciseFormViewModel struct {
+  Text string
+  Error map[string]string
+}
+
+templ ExerciseModal(vm ExerciseFormViewModel) {
+  <dialog
+    id="exercise-modal"
+    class="modal"
+  >
+    <div class="modal-box">
+      <h1
+        class="text-center text-5xl uppercase"
+      >
+        New Exercise
+      </h1>
+      <p
+        class="text-center text-primary"
+      >
+        Create a new exercise
+      </p>
+
+      <div class="modal-action">
+        <form
+          class="w-full gap-4 flex flex-col"
+          method="dialog"
+          class="flex flex-col gap-4"
+          hx-post="/exercise/new"
+          hx-swap="innerHTML"
+        >
+          @ExerciseForm(vm)
+        </form>
+      </div>
+    </div>
+  </dialog>
+}
+
+templ ExerciseForm(vm ExerciseFormViewModel) {
+  <label class="form-control w-full">
+    <div class="label">
+      <span class="label-text">Session Feeling</span>
+    </div>
+    <select
+      class="select select-bordered w-full text-base"
+      name="feeling"
+      required
+    >
+      <option value="relaxed">😌 Relaxed</option>
+      <option value="normal">🙂 Normal</option>
+      <option value="focused">😎 Focused</option>
+      <option value="inspired">🚀 Inspired</option>
+      <option value="stressed">😵 Stressed</option>
+    </select>
+  </label>
+
+  <label
+    class="form-control w-full"
+  >
+    <div class="label">
+      <span class="label-text">Session Time</span>
+    </div>
+    <div class="flex flex-wrap min-w-full w-full justify-start items-center gap-4 2xl:bg-transparent">
+      @Input( InputViewModel{
+        Placeholder: "Hours",
+        Name: "hours",
+        InputType: "number",
+        required: true,
+      }, vm.Error["duration"])
+
+      @Input( InputViewModel{
+        Placeholder: "Minutes",
+        Name: "minutes",
+        InputType: "number",
+        required: true,
+      }, vm.Error["duration"])
+    </div>
+  </label>
+
+  @Input( InputViewModel{
+    Placeholder: "Calories",
+    Name: "calories",
+    InputType: "number",
+    required: true,
+  }, vm.Error["calories"])
+
+  @Error(vm.Error["general"])
+  <menu>
+    <button
+      class="btn btn-primary text-white"
+      type="submit"
+    >
+      Create
+    </button>
+    <button
+      type="reset"
+      class="btn btn-ghost white"
+      formmethod="dialog"
+      formnovalidate
+      onclick="document.querySelector('#exercise-modal').close()"
+    >
+      Cancel
+    </button>
+  </menu>
+}
